@@ -13,10 +13,8 @@ function onVisaCheckoutReady() {
 	});
 	V.on("payment.success", function(payment) {
 		// Parse Values and pass them to hidden fields...
-		console.log(payment.encKey);
-		console.log(payment.encPaymentData);
-		Lowes.Checkout.Visa.loadVisaSuccess();
 		Lowes.Checkout.Visa.addHiddenFields(payment.encKey, payment.encPaymentData);
+		Lowes.Checkout.Visa.loadVisaSuccess();
 
 	});
 	V.on("payment.cancel", function(payment) {
@@ -67,13 +65,14 @@ function onVisaCheckoutReady() {
 				$visaBlock = $('#doVisa'),
 				$widgetHeader = $('.ui-widget-header'),
 				$ccAdd = $('#ccAddTab'),
-				$ccSelect = $('#ccSelectTab');
+				$ccSelect = $('#ccSelectTab'),
+				$ccBlock = $('#cc-block');
 				
 			// Hide other panels and show the visa checkout tab
 			$visaBlock.click(function(event) {
 				$CCBlockListItem.removeClass('ui-tabs-selected ui-state-active');
 				$visaBlock.parent().addClass('ui-tabs-selected ui-state-active');
-				$('#cc-block').find('*.ui-tabs-panel').removeClass('ui-tabs-hide').addClass('ui-tabs-hide');
+				$ccBlock.find('*.ui-tabs-panel').removeClass('ui-tabs-hide').addClass('ui-tabs-hide');
 				$visaCo.removeClass('ui-tabs-hide');
 				$widgetHeader.css('height','44px');
 			});
@@ -83,17 +82,20 @@ function onVisaCheckoutReady() {
 				$visaCo.removeClass('ui-tabs-hide').addClass('ui-tabs-hide');
 				$widgetHeader.css('height','auto');
 				$ccAdd.parent().addClass('ui-tabs-selected ui-state-active');
+				$ccBlock.find('*.ui-tabs-panel').removeClass('ui-tabs-hide').addClass('ui-tabs-hide');
+				$('#cc-add').removeClass('ui-tabs-hide');
 			});
 			// Appending extra bindings to existing buttons... 
-			$ccSelect.click(function(event) {
+			$ccSelect.mousedown(function(event) {
 				$CCBlockListItem.removeClass('ui-tabs-selected ui-state-active');
 				$visaCo.removeClass('ui-tabs-hide').addClass('ui-tabs-hide');
 				$widgetHeader.css('height','auto');
 				$ccSelect.parent().addClass('ui-tabs-selected ui-state-active');
+				$ccBlock.find('*.ui-tabs-panel').removeClass('ui-tabs-hide').addClass('ui-tabs-hide');
+				$('#cc-select').removeClass('ui-tabs-hide');
 			});
 
 			// Finally - load in the Visa checkout scripts...
-			console.log('Setup JS Bindings for Visa...');
 			Lowes.Checkout.Visa.loadInVisaCheckout();
 
 		},
@@ -103,7 +105,6 @@ function onVisaCheckoutReady() {
 			// Adds hidden form fields and their values....
 			$('.js-visa-hidden-fields').remove();
 			$('#CreditcardForm').append('<input type="hidden" class="js-visa-hidden-fields" name="encKey" value="'+encKey+'"><input type="hidden" class="js-visa-hidden-fields" name="encPaymentData" value="'+encPaymentData+'">');
-			console.log('Add hidden Visa Fields...'); 
 
 		},
 
@@ -118,7 +119,6 @@ function onVisaCheckoutReady() {
 			$('.js-visaInfo').html(htmlContent);
 			// Show button to re-activate the Visa Modal
 			$('.js-edit-cc-card').removeClass('display-none');
-			console.log('Load Visa Success');
 
 		},
 
@@ -126,7 +126,6 @@ function onVisaCheckoutReady() {
 			// -----
 			// Visa Checkout code....
 			$('body').append('<script type="text/javascript" src="https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js"></script>');
-			console.log('Load Initial Visa Code...'); 
 		}
 	}
 
