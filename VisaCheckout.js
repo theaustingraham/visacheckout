@@ -15,8 +15,8 @@ function onVisaCheckoutReady() {
 		// Parse Values and pass them to hidden fields...
 		alert(payment.encKey);
 		alert(payment.encPaymentData);
-		Lowes.Checkout.Visa.addHiddenFields(payment.encKey, payment.encPaymentData);
 		Lowes.Checkout.Visa.loadVisaSuccess();
+		Lowes.Checkout.Visa.addHiddenFields(payment.encKey, payment.encPaymentData);
 
 	});
 	V.on("payment.cancel", function(payment) {
