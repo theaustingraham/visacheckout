@@ -13,8 +13,8 @@ function onVisaCheckoutReady() {
 	});
 	V.on("payment.success", function(payment) {
 		// Parse Values and pass them to hidden fields...
-		alert(payment.encKey);
-		alert(payment.encPaymentData);
+		console.log(payment.encKey);
+		console.log(payment.encPaymentData);
 		Lowes.Checkout.Visa.loadVisaSuccess();
 		Lowes.Checkout.Visa.addHiddenFields(payment.encKey, payment.encPaymentData);
 
@@ -61,6 +61,7 @@ function onVisaCheckoutReady() {
 		setupBindings: function(){
 			// -----
 			// Cached Selectors
+
 				$visaCo = $('#visa-co'),
 				$CCBlockListItem = $('#cc-block .ui-tabs-nav li'),
 				$visaBlock = $('#doVisa'),
@@ -92,16 +93,18 @@ function onVisaCheckoutReady() {
 			});
 
 			// Finally - load in the Visa checkout scripts...
+			console.log('Setup JS Bindings for Visa...');
 			Lowes.Checkout.Visa.loadInVisaCheckout();
 
 		},
 
 		addHiddenFields: function(encKey, encPaymentData){
 			// -----
-			// Adds hidden form fields and their values.... 
+			// Adds hidden form fields and their values....
 			$('.js-visa-hidden-fields').remove();
 			$('#CreditcardForm').append('<input type="hidden" class="js-visa-hidden-fields" name="encKey" value="'+encKey+'"><input type="hidden" class="js-visa-hidden-fields" name="encPaymentData" value="'+encPaymentData+'">');
-			
+			console.log('Add hidden Visa Fields...'); 
+
 		},
 
 		loadVisaSuccess: function() {
@@ -115,6 +118,7 @@ function onVisaCheckoutReady() {
 			$('.js-visaInfo').html(htmlContent);
 			// Show button to re-activate the Visa Modal
 			$('.js-edit-cc-card').removeClass('display-none');
+			console.log('Load Visa Success');
 
 		},
 
@@ -122,6 +126,7 @@ function onVisaCheckoutReady() {
 			// -----
 			// Visa Checkout code....
 			$('body').append('<script type="text/javascript" src="https://sandbox-assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js"></script>');
+			console.log('Load Initial Visa Code...'); 
 		}
 	}
 
